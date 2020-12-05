@@ -1,5 +1,9 @@
 <template>
-  <div v-if="show" class="modal">
+  <div
+    v-if="isVisible"
+    class="modal"
+    :class="{ 'modal--type-page': isPageType }"
+  >
     <div class="modal__window">
       <div class="modal__header">
         <button class="modal__back">
@@ -31,7 +35,8 @@ export default defineComponent({
   name: 'Modal',
   components: { IconClose, IconBack },
   props: {
-    show: Boolean,
+    isVisible: Boolean,
+    isPageType: Boolean,
     title: String,
     buttonText: String
   }
@@ -52,6 +57,10 @@ export default defineComponent({
   justify-content: center;
 
   padding-top: 8.9vh;
+
+  &--type-page {
+    padding: 0;
+  }
 }
 
 .modal__window {
@@ -63,7 +72,6 @@ export default defineComponent({
   border-radius: 16px 16px 0px 0px;
   padding: var(--modal-window-padding);
   min-width: 320px;
-  max-width: 650px;
   position: relative;
 
   &::before {
@@ -81,19 +89,32 @@ export default defineComponent({
   }
 }
 
+.modal--type-page .modal__window {
+  border-radius: unset;
+  width: 100%;
+  height: 100%;
+
+  &::before {
+    display: none;
+  }
+}
+
 .modal__header {
-  padding-bottom: var(--modal-window-padding);
+  padding-bottom: 13px;
   display: flex;
   align-items: center;
 }
 
 .modal__back {
   display: none;
-  @include reset-button;
+}
 
-  &--visible {
-    display: inline-block;
-  }
+.modal--type-page .modal__back {
+  display: inline-block;
+  @include reset-button;
+  padding-top: 4px;
+  padding-right: 16px;
+  padding-left: 4px;
 }
 
 .modal__title {
@@ -110,17 +131,8 @@ export default defineComponent({
   cursor: pointer;
 }
 
-.modal__content {
-  min-height: 449px;
-}
-
-.modal__footer {
-  position: relative;
-  padding-top: var(--modal-window-padding);
-  display: flex;
-  justify-content: flex-end;
-
-  &:before {
+%modal-line {
+  &::before {
     content: '';
     position: absolute;
     top: 0;
@@ -130,5 +142,22 @@ export default defineComponent({
     height: 1px;
     border-radius: 1px;
   }
+}
+
+.modal__content {
+  min-height: 449px;
+}
+
+.modal--type-page .modal__content {
+  position: relative;
+  @extend %modal-line;
+}
+
+.modal__footer {
+  position: relative;
+  padding-top: var(--modal-window-padding);
+  display: flex;
+  justify-content: flex-end;
+  @extend %modal-line;
 }
 </style>

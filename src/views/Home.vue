@@ -1,6 +1,9 @@
 <template>
   <div class="home">
-    <button class="home__button button" @click="showModal = !showModal">
+    <button
+      class="home__button button"
+      @click="isModalVisible = !isModalVisible"
+    >
       Новый озыв
     </button>
 
@@ -8,8 +11,9 @@
       <Modal
         title="Новый отзыв"
         buttonText="Продолжить"
-        :show="showModal"
-        @close="showModal = false"
+        :isVisible="isModalVisible"
+        :isPageType="true"
+        @close="isModalVisible = false"
       >
         Text
       </Modal>
@@ -25,7 +29,7 @@ export default defineComponent({
   name: 'Home',
   components: { Modal },
   data: () => ({
-    showModal: true
+    isModalVisible: true
   })
 });
 </script>
