@@ -1,29 +1,27 @@
 <template>
-  <div
-    v-if="isVisible"
-    class="modal"
-    :class="{ 'modal--type-page': isPageType }"
-  >
-    <div class="modal__window">
-      <div class="modal__header">
-        <button class="modal__back">
-          <IconBack />
-        </button>
-        <h2 class="modal__title">{{ title }}</h2>
-        <button class="modal__close" @click="$emit('close')">
-          <IconClose />
-        </button>
-      </div>
-      <div class="modal__content">
-        <slot />
-      </div>
-      <div class="modal__footer">
-        <button class="modal__button button">
-          {{ buttonText }}
-        </button>
+  <teleport to="#modal-container" v-if="isVisible">
+    <div class="modal" :class="{ 'modal--type-page': isPageType }">
+      <div class="modal__window">
+        <div class="modal__header">
+          <button class="modal__back">
+            <IconBack />
+          </button>
+          <h2 class="modal__title">{{ title }}</h2>
+          <button class="modal__close" @click="$emit('close')">
+            <IconClose />
+          </button>
+        </div>
+        <div class="modal__content">
+          <slot />
+        </div>
+        <div class="modal__footer">
+          <button class="modal__button button" @click="$emit('next')">
+            {{ buttonText }}
+          </button>
+        </div>
       </div>
     </div>
-  </div>
+  </teleport>
 </template>
 
 <script lang="ts">
@@ -146,6 +144,7 @@ export default defineComponent({
 
 .modal__content {
   min-height: 449px;
+  padding: 14px 0;
 }
 
 .modal--type-page .modal__content {

@@ -1,23 +1,19 @@
 <template>
   <div class="home">
-    <button
-      class="home__button button"
-      @click="isModalVisible = !isModalVisible"
-    >
-      Новый озыв
+    <button class="button" @click="isModalVisible = !isModalVisible">
+      Новый отзыв
     </button>
 
-    <teleport to="#modal-container">
-      <Modal
-        title="Новый отзыв"
-        buttonText="Продолжить"
-        :isVisible="isModalVisible"
-        :isPageType="true"
-        @close="isModalVisible = false"
-      >
-        Text
-      </Modal>
-    </teleport>
+    <Modal
+      title="Новый отзыв"
+      buttonText="Продолжить"
+      :isVisible="isModalVisible"
+      :isPageType="isModalPageType"
+      @close="isModalVisible = false"
+      @next="isModalPageType = !isModalPageType"
+    >
+      Text
+    </Modal>
   </div>
 </template>
 
@@ -29,7 +25,8 @@ export default defineComponent({
   name: 'Home',
   components: { Modal },
   data: () => ({
-    isModalVisible: true
+    isModalVisible: true,
+    isModalPageType: false
   })
 });
 </script>
