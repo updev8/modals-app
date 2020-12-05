@@ -3,9 +3,11 @@
 }
 
 body {
-  min-width: 320px;
-  background: var(--c-bg-main-primary);
   font-family: 'Montserrat', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  min-width: 320px;
+  background: var(--c-bg-main-primary);
+  color: var(--c-text-primary);
 }

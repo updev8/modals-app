@@ -1,15 +1,40 @@
 <template>
   <div class="home">
-    <button class="button">Новый озыв</button>
+    <button class="home__button button" @click="showModal = !showModal">
+      Новый озыв
+    </button>
+
+    <teleport to="#modal-container">
+      <Modal
+        title="Новый отзыв"
+        buttonText="Продолжить"
+        :show="showModal"
+        @close="showModal = false"
+      >
+        Text
+      </Modal>
+    </teleport>
   </div>
 </template>
 
 <script lang="ts">
+import Modal from '@/components/Modal.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'Home'
+  name: 'Home',
+  components: { Modal },
+  data: () => ({
+    showModal: true
+  })
 });
 </script>
 
-
+<style lang="scss">
+.home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px 0;
+}
+</style>
