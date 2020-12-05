@@ -1,0 +1,36 @@
+:root {
+  // text
+  --c-text-primary: #3c3c3c;
+  --c-text-secondary: #50586a;
+
+  // font weights
+  // 100 Thin
+  // 200 Extra Light
+  // 300 Light
+  // 400 Normal
+  // 500 Medium
+  // 600 Semi Bold
+  // 700 Bold
+  // 800 Extra Bold
+  // 900 Ultra Bold
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-semi-bold: 600;
+
+  // backgrounds
+  --c-bg-main-primary: #ffffff;
+
+  // modals
+  --c-bg-modal-primary: #ffffff;
+  --c-bg-overlay-primary: #666666;
+
+  // accent colors
+  --c-accent-bg-primary: #53c6d1;
+  --c-accent-bg-secondary: #eaecf0;
+  --c-accent-text-primary: #ffffff;
+
+  // forms
+  --c-input-bg-primary: #fafafa;
+  --c-input-border-primary: #eaecf0;
+  --c-input-text-primary: #7f899e;
+}
