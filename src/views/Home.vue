@@ -1,5 +1,7 @@
 <template>
-  <div class="home"></div>
+  <div class="home">
+    <button class="button">Новый озыв</button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -9,3 +11,5 @@ export default defineComponent({
   name: 'Home'
 });
 </script>
+
+

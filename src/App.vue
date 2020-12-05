@@ -2,4 +2,16 @@
   <router-view />
 </template>
 
-<style lang="scss"></style>
+<script lang="ts">
+import { defineComponent } from 'vue';
+import 'normalize.css';
+
+export default defineComponent({
+  name: 'App'
+});
+</script>
+
+<style lang="scss">
+.app {
+}
+</style>
