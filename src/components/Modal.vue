@@ -1,6 +1,10 @@
 <template>
-  <teleport to="#modal-container" v-if="isVisible">
-    <div class="modal" :class="{ 'modal--type-page': isPageType }">
+  <teleport to="#modal-container">
+    <div
+      class="modal"
+      :class="{ 'modal--type-page': isPageType }"
+      v-if="isVisible"
+    >
       <div class="modal__window">
         <div class="modal__header">
           <button class="modal__back">

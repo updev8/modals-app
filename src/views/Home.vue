@@ -12,18 +12,19 @@
       @close="isModalVisible = false"
       @next="isModalPageType = !isModalPageType"
     >
-      Text
+      <Review />
     </Modal>
   </div>
 </template>
 
 <script lang="ts">
 import Modal from '@/components/Modal.vue';
+import Review from '@/components/Review.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'Home',
-  components: { Modal },
+  components: { Modal, Review },
   data: () => ({
     isModalVisible: true,
     isModalPageType: false
