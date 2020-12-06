@@ -10,11 +10,11 @@
         }"
         v-for="star in stars"
         :key="star"
-        @click="onClick(star)"
+        @click="onClick()"
         @mouseenter="onMouseEnter(star)"
         @focus="onMouseEnter(star)"
         @mouseleave="onMouseLeave"
-        @keypress="onClick(star)"
+        @keypress="onClick()"
       >
         <IconStar />
       </button>
@@ -54,8 +54,7 @@ export default defineComponent({
       this.isHovering = true;
       this.valueHovering = value;
     },
-    onClick(e) {
-      console.log(e);
+    onClick() {
       this.valueInner = this.valueHovering;
     },
     onMouseLeave() {
