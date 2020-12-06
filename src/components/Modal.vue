@@ -7,7 +7,7 @@
     >
       <div class="modal__window">
         <div class="modal__header">
-          <button class="modal__back">
+          <button class="modal__back" @click="$emit('back')">
             <IconBack />
           </button>
           <h2 class="modal__title">{{ title }}</h2>
@@ -132,6 +132,7 @@ export default defineComponent({
   padding-top: 4px;
   padding-right: 16px;
   padding-left: 4px;
+  cursor: pointer;
 }
 
 .modal__title {
@@ -139,6 +140,10 @@ export default defineComponent({
   font-weight: var(--fw-semi-bold);
   font-size: 16px;
   line-height: 24px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modal__close {

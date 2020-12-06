@@ -6,29 +6,66 @@
 
     <Modal
       title="Новый отзыв"
-      buttonText="Продолжить"
       :isVisible="isModalVisible"
       :isPageType="isModalPageType"
+      :buttonText="modalButtonText"
       @close="isModalVisible = false"
-      @next="isModalPageType = !isModalPageType"
+      @back="step !== 1 && (step -= 1)"
+      @next="step < amountOfSteps && (step += 1)"
     >
-      <Review :step="2" />
+      <Review :isTablet="isTablet" :step="step" />
     </Modal>
   </div>
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue';
+import { debounce } from 'lodash';
 import Modal from '@/components/Modal.vue';
 import Review from '@/components/Review.vue';
-import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'Home',
   components: { Modal, Review },
   data: () => ({
-    isModalVisible: true,
-    isModalPageType: false
-  })
+    step: 2,
+    amountOfSteps: 2,
+    isTablet: false,
+    isModalVisible: true
+  }),
+
+  computed: {
+    modalButtonText(): string {
+      if (!this.isTablet && this.step < this.amountOfSteps) {
+        return 'Продолжить';
+      } else {
+        return 'Отправить';
+      }
+    },
+    isModalPageType(): boolean {
+      if (!this.isTablet && this.step > 1) return true;
+      return false;
+    }
+  },
+
+  methods: {
+    onResize() {
+      if (window.innerWidth >= 650) {
+        this.isTablet = true;
+      } else {
+        this.isTablet = false;
+      }
+    }
+  },
+
+  mounted() {
+    this.onResize();
+    window.addEventListener('resize', debounce(this.onResize, 100));
+  },
+
+  beforeUnmount() {
+    window.removeEventListener('resize', this.onResize);
+  }
 });
 </script>
 

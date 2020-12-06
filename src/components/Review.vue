@@ -1,6 +1,6 @@
 <template>
   <div class="review">
-    <div class="review__wrapper" v-if="step === 1">
+    <div class="review__wrapper" v-if="isTablet || step === 1">
       <div class="review__header">
         <img
           class="review__image"
@@ -23,7 +23,7 @@
         />
       </div>
     </div>
-    <div class="review__wrapper" v-if="step === 2">
+    <div class="review__wrapper" v-if="isTablet || step === 2">
       <div class="review__field">
         <textarea
           class="review__textarea"
@@ -49,7 +49,8 @@ export default defineComponent({
   name: 'Review',
   components: { Rating, Images },
   props: {
-    step: Number
+    step: Number,
+    isTablet: Boolean
   },
   data() {
     return {
@@ -72,6 +73,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+.review__image {
+  border-radius: 6px;
+}
+
 .review__title {
   font-weight: var(--fw-semi-bold);
   font-size: 16px;
@@ -88,10 +93,19 @@ export default defineComponent({
 
 .review__ratings {
   padding-top: 16px;
+
+  @include tablet {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }
 
 .review__rating {
   margin-bottom: 8px;
+
+  @include tablet {
+    width: 50%;
+  }
 }
 
 .review__textarea {
@@ -102,6 +116,13 @@ export default defineComponent({
 
   width: 100%;
   height: 146px;
+
+  &::placeholder,
+  &:-ms-input-placeholder,
+  &::-ms-input-placeholder {
+    color: var(--c-input-text-primary);
+    opacity: 1;
+  }
 }
 
 .review__textarea-count {
