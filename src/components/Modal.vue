@@ -24,6 +24,7 @@
           </button>
         </div>
       </div>
+      <Toast />
     </div>
   </teleport>
 </template>
@@ -32,10 +33,11 @@
 import { defineComponent } from 'vue';
 import IconBack from './icons/IconBack.vue';
 import IconClose from './icons/IconClose.vue';
+import Toast from './Toast.vue';
 
 export default defineComponent({
   name: 'Modal',
-  components: { IconClose, IconBack },
+  components: { IconClose, IconBack, Toast },
   props: {
     isVisible: Boolean,
     isPageType: Boolean,
@@ -58,6 +60,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
 
+  overflow-y: auto;
   padding-top: 8.9vh;
 
   @include tablet {
@@ -109,7 +112,7 @@ export default defineComponent({
 .modal--type-page .modal__window {
   border-radius: unset;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
 
   &::before {
     display: none;
