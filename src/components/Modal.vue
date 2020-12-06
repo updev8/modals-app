@@ -56,6 +56,11 @@ export default defineComponent({
 
   padding-top: 8.9vh;
 
+  @include tablet {
+    padding: 0;
+    align-items: center;
+  }
+
   &--type-page {
     padding: 0;
   }
@@ -70,6 +75,7 @@ export default defineComponent({
   border-radius: 16px 16px 0px 0px;
   padding: var(--modal-window-padding);
   min-width: 320px;
+  max-width: 650px;
   position: relative;
 
   &::before {
@@ -84,6 +90,15 @@ export default defineComponent({
 
     border-radius: 4px;
     background: var(--c-accent-bg-tertiary);
+  }
+
+  @include tablet {
+    margin-top: unset;
+    border-radius: 16px;
+
+    &::before {
+      display: none;
+    }
   }
 }
 
@@ -129,14 +144,16 @@ export default defineComponent({
   cursor: pointer;
 }
 
-%modal-line {
+@mixin modal-line {
+  position: relative;
+
   &::before {
     content: '';
     position: absolute;
     top: 0;
     left: var(--modal-window-padding-negative);
     right: var(--modal-window-padding-negative);
-    background: #eaecf0;
+    background: var(--c-accent-bg-secondary);
     height: 1px;
     border-radius: 1px;
   }
@@ -145,11 +162,14 @@ export default defineComponent({
 .modal__content {
   min-height: 449px;
   padding: 14px 0;
+
+  @include tablet {
+    @include modal-line;
+  }
 }
 
 .modal--type-page .modal__content {
-  position: relative;
-  @extend %modal-line;
+  @include modal-line;
 }
 
 .modal__footer {
@@ -157,6 +177,6 @@ export default defineComponent({
   padding-top: var(--modal-window-padding);
   display: flex;
   justify-content: flex-end;
-  @extend %modal-line;
+  @include modal-line;
 }
 </style>
