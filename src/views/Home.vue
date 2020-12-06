@@ -12,7 +12,7 @@
       @close="isModalVisible = false"
       @next="isModalPageType = !isModalPageType"
     >
-      <Review />
+      <Review :step="2" />
     </Modal>
   </div>
 </template>

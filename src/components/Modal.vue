@@ -164,7 +164,6 @@ export default defineComponent({
 }
 
 .modal__content {
-  min-height: 449px;
   padding: 14px 0;
 
   @include tablet {

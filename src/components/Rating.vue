@@ -45,7 +45,7 @@ export default defineComponent({
 
   computed: {
     stars(): number[] {
-      return Array.from({ length: this.length }, (value, index) => index);
+      return Array.from({ length: this.length }, (value, index) => index + 1);
     }
   },
 
