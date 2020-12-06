@@ -25,9 +25,17 @@
     </div>
     <div class="review__wrapper" v-if="step === 2">
       <div class="review__field">
-        <textarea class="review__textarea" placeholder="Комментарий"></textarea>
-        <span class="review__textarea-count">12/500</span>
+        <textarea
+          class="review__textarea"
+          placeholder="Комментарий"
+          v-model="textAreaValue"
+          :maxlength="textAreaValueMaxLenght"
+        />
+        <span class="review__textarea-count">
+          {{ textAreaValueLenght }}/{{ textAreaValueMaxLenght }}
+        </span>
       </div>
+      <Images />
     </div>
   </div>
 </template>
@@ -35,10 +43,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Rating from '@/components/Rating.vue';
+import Images from '@/components/Images.vue';
 
 export default defineComponent({
   name: 'Review',
-  components: { Rating },
+  components: { Rating, Images },
   props: {
     step: Number
   },
@@ -49,8 +58,15 @@ export default defineComponent({
         { id: 2, title: 'Скорость отдачи видео', lenght: 5, value: 3 },
         { id: 3, title: 'Исполнитель солнышка?', lenght: 5, value: 5 },
         { id: 4, title: 'Исполнитель солнышка?', lenght: 5, value: 3 }
-      ]
+      ],
+      textAreaValue: '',
+      textAreaValueMaxLenght: 500
     };
+  },
+  computed: {
+    textAreaValueLenght(): number {
+      return this.textAreaValue.length;
+    }
   }
 });
 </script>
