@@ -62,7 +62,6 @@ export default defineComponent({
 
 <style lang="scss">
 .images {
-  margin-top: 16px;
   display: flex;
   flex-wrap: wrap;
 }

@@ -83,6 +83,9 @@ export default defineComponent({
   max-width: 650px;
   position: relative;
 
+  display: flex;
+  flex-direction: column;
+
   &::before {
     content: '';
     position: absolute;
@@ -170,7 +173,7 @@ export default defineComponent({
 }
 
 .modal__content {
-  padding: 14px 0;
+  padding-bottom: 8px;
 
   @include tablet {
     @include modal-line;
@@ -187,5 +190,9 @@ export default defineComponent({
   display: flex;
   justify-content: flex-end;
   @include modal-line;
+}
+
+.modal--type-page .modal__footer {
+  margin-top: auto;
 }
 </style>

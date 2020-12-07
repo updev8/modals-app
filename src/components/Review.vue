@@ -7,7 +7,7 @@
       <div class="review__header">
         <img
           class="review__image"
-          width="86"
+          width="84"
           height="56"
           :alt="title"
           :src="imgSrc"
@@ -43,7 +43,7 @@
           {{ textAreaValueLenght }}/{{ textAreaValueMaxLenght }}
         </span>
       </div>
-      <Images @onSubmit="onAddImages" />
+      <Images class="review__images" @onSubmit="onAddImages" />
     </div>
     <Toast
       :isVisible="wasSubmitted"
@@ -165,7 +165,7 @@ export default defineComponent({
   font-size: 16px;
   line-height: 24px;
   margin: 0;
-  margin-top: 15px;
+  margin-top: 11px;
 }
 
 .review__author {
@@ -175,7 +175,7 @@ export default defineComponent({
 }
 
 .review__ratings {
-  padding-top: 16px;
+  padding-top: 23px;
 
   @include tablet {
     display: flex;
@@ -184,18 +184,22 @@ export default defineComponent({
 }
 
 .review__rating {
-  margin-bottom: 8px;
+  margin-bottom: 11px;
 
   @include tablet {
     width: 50%;
   }
 }
 
+.review__field {
+  padding-top: 14px;
+}
+
 .review__textarea {
   resize: none;
   border: 1px solid var(--c-input-border-primary);
   background: var(--c-input-bg-primary);
-  padding: 16px 12px;
+  padding: 20px 12px;
 
   width: 100%;
   height: 146px;
@@ -210,10 +214,13 @@ export default defineComponent({
 
 .review__textarea-count {
   display: block;
-  margin-top: 4px;
   text-align: end;
   color: var(--c-input-text-primary);
   font-size: 12px;
   line-height: 16px;
+}
+
+.review__images {
+  margin-top: 18px;
 }
 </style>
