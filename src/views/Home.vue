@@ -20,8 +20,16 @@
         :isTablet="isTablet"
         :step="step"
         :isSubmit="isSubmit"
+        @submitted="onReviewSubmitted"
       />
     </Modal>
+
+    <Toast
+      :isVisible="isToastVisible"
+      :msg="wasSubmittedSuccessfuly ? 'Спасибо, отзыв опубликован' : 'Ошибка'"
+      :variant="wasSubmittedSuccessfuly ? 'success' : 'error'"
+      @close="isToastVisible = false"
+    />
   </div>
 </template>
 
@@ -30,18 +38,29 @@ import { defineComponent } from 'vue';
 import { debounce } from 'lodash';
 import Modal from '@/components/Modal.vue';
 import Review from '@/components/Review.vue';
+import Toast from '@/components/Toast.vue';
 
 export default defineComponent({
   name: 'Home',
-  components: { Modal, Review },
+  components: { Modal, Review, Toast },
   data: () => ({
     step: 1,
     amountOfSteps: 2,
     isTablet: false,
     isModalVisible: true,
-    isSubmit: false
-  }),
+    isSubmit: false,
 
+    isToastVisible: false,
+    wasSubmittedSuccessfuly: false
+  }),
+  watch: {
+    isToastVisible() {
+      setTimeout(() => {
+        // toggle off the toast
+        this.isToastVisible = false;
+      }, 5000);
+    }
+  },
   computed: {
     modalButtonText(): string {
       if (!this.isTablet && this.step < this.amountOfSteps) {
@@ -76,6 +95,14 @@ export default defineComponent({
       if (this.step !== 1) {
         this.step -= 1;
       }
+    },
+    onReviewSubmitted(wasSuccessful = false) {
+      if (wasSuccessful) {
+        this.isModalVisible = false;
+      }
+
+      this.isToastVisible = true;
+      this.wasSubmittedSuccessfuly = wasSuccessful;
     }
   },
 

@@ -51,12 +51,6 @@
         :isClean="wasSubmittedSuccessfuly"
       />
     </div>
-    <Toast
-      :isVisible="wasSubmitted"
-      :msg="wasSubmittedSuccessfuly ? 'Спасибо, отзыв опубликован' : 'Ошибка'"
-      :variant="wasSubmittedSuccessfuly ? 'success' : 'error'"
-      @close="wasSubmitted = false"
-    />
   </div>
 </template>
 
@@ -65,11 +59,11 @@ import { defineComponent } from 'vue';
 import axios from 'axios';
 import Rating from '@/components/Rating.vue';
 import Images from '@/components/Images.vue';
-import Toast from '@/components/Toast.vue';
 
 export default defineComponent({
   name: 'Review',
-  components: { Rating, Images, Toast },
+  components: { Rating, Images },
+  emits: ['submitted'],
   props: {
     title: String,
     author: String,
@@ -89,7 +83,7 @@ export default defineComponent({
       images: [] as File[],
       textAreaValue: '',
       textAreaValueMaxLenght: 500,
-      wasSubmitted: false,
+
       wasSubmittedSuccessfuly: false
     };
   },
@@ -98,13 +92,8 @@ export default defineComponent({
       if (newIsSubmit) this.handleSubmit();
     },
 
-    wasSubmitted() {
-      setTimeout(() => {
-        // toggle off the toast
-        this.wasSubmitted = false;
-        // clean the images component
-        this.wasSubmittedSuccessfuly = false;
-      }, 5000);
+    wasSubmittedSuccessfuly() {
+      setTimeout(() => (this.wasSubmittedSuccessfuly = false), 500);
     }
   },
 
@@ -142,11 +131,11 @@ export default defineComponent({
       return { formData };
     },
 
-    setWasSubmittedSuccessfuly(wasSuccessful = false) {
-      this.wasSubmitted = true;
-      this.wasSubmittedSuccessfuly = wasSuccessful;
+    handleSubmitted(wasSuccessful = false) {
+      this.$emit('submitted', wasSuccessful);
 
       if (wasSuccessful) {
+        this.wasSubmittedSuccessfuly = true;
         this.textAreaValue = '';
         this.images = [];
         this.ratings = this.ratings.map((rating) => ({ ...rating, value: 0 }));
@@ -159,9 +148,9 @@ export default defineComponent({
         const url = 'https://jsonplaceholder.typicode.com/posts';
         await axios.post(url, formData);
 
-        this.setWasSubmittedSuccessfuly(true);
+        this.handleSubmitted(true);
       } catch (e) {
-        this.setWasSubmittedSuccessfuly(false);
+        this.handleSubmitted(false);
       }
     }
   }
