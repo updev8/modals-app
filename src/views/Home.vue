@@ -58,7 +58,7 @@ export default defineComponent({
     isToastVisible() {
       setTimeout(() => {
         this.isToastVisible = false;
-      }, 5000);
+      }, 4000);
     }
   },
   computed: {
@@ -102,6 +102,7 @@ export default defineComponent({
     onReviewSubmitted(wasSuccessful = false) {
       if (wasSuccessful) {
         this.isModalVisible = false;
+        this.step = 1;
       }
 
       this.isToastVisible = true;

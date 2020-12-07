@@ -32,7 +32,7 @@ export default defineComponent({
   left: 50%;
   transform: translateX(-50%);
 
-  padding: 8px 12px;
+  padding: 4px 12px;
   box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.08);
   border-radius: 6px;
 
