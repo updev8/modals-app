@@ -12,8 +12,10 @@
           :alt="title"
           :src="imgSrc"
         />
-        <h3 class="review__title">{{ title }}</h3>
-        <p class="review__author">{{ author }}</p>
+        <div class="review__header-wrapper">
+          <h3 class="review__title">{{ title }}</h3>
+          <p class="review__author">{{ author }}</p>
+        </div>
       </div>
       <div class="review__ratings">
         <Rating
@@ -77,7 +79,7 @@ export default defineComponent({
       ratings: [
         { id: 1, title: 'Скорость', lenght: 5, value: 0 },
         { id: 2, title: 'Скорость отдачи видео', lenght: 5, value: 3 },
-        { id: 3, title: 'Исполнитель солнышка?', lenght: 5, value: 5 },
+        { id: 3, title: 'Качество', lenght: 5, value: 5 },
         { id: 4, title: 'Исполнитель солнышка?', lenght: 5, value: 3 }
       ],
       images: [] as File[],
@@ -156,8 +158,26 @@ export default defineComponent({
   }
 }
 
+.review__header {
+  @include tablet {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
 .review__image {
   border-radius: 6px;
+
+  @include tablet {
+    width: 102px;
+    height: 68px;
+  }
+}
+
+.review__header-wrapper {
+  @include tablet {
+    margin-left: 20px;
+  }
 }
 
 .review__title {
@@ -165,7 +185,7 @@ export default defineComponent({
   font-size: 16px;
   line-height: 24px;
   margin: 0;
-  margin-top: 11px;
+  margin-top: 12px;
 }
 
 .review__author {
@@ -178,6 +198,7 @@ export default defineComponent({
   padding-top: 23px;
 
   @include tablet {
+    padding-top: 31px;
     display: flex;
     flex-wrap: wrap;
   }
@@ -187,19 +208,23 @@ export default defineComponent({
   margin-bottom: 11px;
 
   @include tablet {
-    width: 50%;
+    width: 44.3%;
+    margin-bottom: 15px;
   }
 }
 
 .review__field {
-  padding-top: 14px;
+  @include tablet {
+    padding-top: 7px;
+  }
 }
 
 .review__textarea {
   resize: none;
   border: 1px solid var(--c-input-border-primary);
   background: var(--c-input-bg-primary);
-  padding: 20px 12px;
+  padding: 20px 11px;
+  border-radius: 6px;
 
   width: 100%;
   height: 146px;
@@ -209,6 +234,11 @@ export default defineComponent({
   &::-ms-input-placeholder {
     color: var(--c-input-text-primary);
     opacity: 1;
+  }
+
+  @include tablet {
+    padding: 16px 11px;
+    height: 100px;
   }
 }
 

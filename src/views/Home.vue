@@ -5,7 +5,7 @@
     </button>
 
     <Modal
-      title="Новый отзыв"
+      title="Мой отзыв"
       :isVisible="isModalVisible"
       :isTypePage="isModalTypePage"
       :buttonText="modalButtonText"
@@ -58,7 +58,7 @@ export default defineComponent({
 
   methods: {
     onWindowResize() {
-      if (window.innerWidth >= 650) {
+      if (window.innerWidth >= 560) {
         this.isTablet = true;
       } else {
         this.isTablet = false;

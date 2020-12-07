@@ -80,7 +80,7 @@ export default defineComponent({
   border-radius: 16px 16px 0px 0px;
   padding: var(--modal-window-padding);
   min-width: 320px;
-  max-width: 650px;
+  max-width: 560px;
   position: relative;
 
   display: flex;
@@ -101,6 +101,8 @@ export default defineComponent({
   }
 
   @include tablet {
+    --modal-window-padding: 32px;
+
     margin-top: unset;
     border-radius: 16px;
 
@@ -121,9 +123,16 @@ export default defineComponent({
 }
 
 .modal__header {
-  padding-bottom: 13px;
   display: flex;
   align-items: center;
+
+  @include tablet {
+    padding-bottom: 13px;
+  }
+}
+
+.modal--type-page .modal__header {
+  padding-bottom: 13px;
 }
 
 .modal__back {
@@ -155,6 +164,11 @@ export default defineComponent({
   margin-left: auto;
   padding: 4px 5px;
   cursor: pointer;
+
+  @include tablet {
+    position: relative;
+    right: -16px;
+  }
 }
 
 @mixin modal-line {
@@ -173,10 +187,13 @@ export default defineComponent({
 }
 
 .modal__content {
+  padding-top: 13px;
   padding-bottom: 8px;
 
   @include tablet {
     @include modal-line;
+    padding-top: 26px;
+    padding-bottom: 15px;
   }
 }
 
@@ -190,9 +207,18 @@ export default defineComponent({
   display: flex;
   justify-content: flex-end;
   @include modal-line;
+
+  @include tablet {
+    padding-top: 16px;
+  }
 }
 
 .modal--type-page .modal__footer {
   margin-top: auto;
+}
+
+.modal__button {
+  position: relative;
+  right: -16px;
 }
 </style>
