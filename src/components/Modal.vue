@@ -103,6 +103,7 @@ export default defineComponent({
   @include tablet {
     --modal-window-padding: 32px;
 
+    padding-bottom: 16px;
     margin-top: unset;
     border-radius: 16px;
 
@@ -218,7 +219,9 @@ export default defineComponent({
 }
 
 .modal__button {
-  position: relative;
-  right: -16px;
+  @include tablet {
+    position: relative;
+    right: -16px;
+  }
 }
 </style>

@@ -92,31 +92,32 @@ export default defineComponent({
   watch: {
     isSubmit(newIsSubmit) {
       if (newIsSubmit) this.handleSubmit();
+    },
+
+    wasSubmitted() {
+      setTimeout(() => {
+        // toggle off the toast
+        this.wasSubmitted = false;
+      }, 5000);
     }
   },
+
   computed: {
     textAreaValueLenght(): number {
       return this.textAreaValue.length;
     }
   },
-  methods: {
-    async handleSubmit() {
-      try {
-        const { formData } = this.createFormData();
-        const url = 'https://jsonplaceholder.typicode.com/posts';
-        await axios.post(url, formData, {
-          headers: { 'Content-type': 'application/json; charset=UTF-8' }
-        });
 
-        this.setWasSubmittedSuccessfuly(true);
-      } catch (e) {
-        this.setWasSubmittedSuccessfuly(false);
-      }
+  methods: {
+    onAddImages(images: File[]) {
+      this.images = [...this.images, ...images];
     },
 
-    setWasSubmittedSuccessfuly(wasSuccessful = false) {
-      this.wasSubmitted = true;
-      this.wasSubmittedSuccessfuly = wasSuccessful;
+    selectRatingValue({ value, id }: { value: number; id: number }) {
+      this.ratings = this.ratings.map((rating) => {
+        if (rating.id === id) return { ...rating, value };
+        return rating;
+      });
     },
 
     createFormData() {
@@ -135,15 +136,23 @@ export default defineComponent({
       return { formData };
     },
 
-    onAddImages(images: File[]) {
-      this.images = [...this.images, ...images];
+    setWasSubmittedSuccessfuly(wasSuccessful = false) {
+      this.wasSubmitted = true;
+      this.wasSubmittedSuccessfuly = wasSuccessful;
     },
 
-    selectRatingValue({ value, id }: { value: number; id: number }) {
-      this.ratings = this.ratings.map((rating) => {
-        if (rating.id === id) return { ...rating, value };
-        return rating;
-      });
+    async handleSubmit() {
+      try {
+        const { formData } = this.createFormData();
+        const url = 'https://jsonplaceholder.typicode.com/posts';
+        await axios.post(url, formData, {
+          headers: { 'Content-type': 'application/json; charset=UTF-8' }
+        });
+
+        this.setWasSubmittedSuccessfuly(true);
+      } catch (e) {
+        this.setWasSubmittedSuccessfuly(false);
+      }
     }
   }
 });
