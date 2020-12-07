@@ -48,7 +48,7 @@ export default defineComponent({
     step: 1,
     amountOfSteps: 2,
     isTablet: false,
-    isModalVisible: true,
+    isModalVisible: false,
     isSubmit: false,
 
     isToastVisible: false,

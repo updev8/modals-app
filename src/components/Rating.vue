@@ -74,12 +74,17 @@ export default defineComponent({
 
 .rating__star {
   @include reset-button;
+  box-sizing: content-box;
   width: 32px;
   height: 32px;
-  margin-right: 4px;
+  padding-right: 2px;
   margin-bottom: 5px;
-
   cursor: pointer;
+  outline: none;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 
   &:hover path,
   &--active path {

@@ -93,6 +93,10 @@ export default defineComponent({
   margin-right: 8px;
   margin-bottom: 8px;
   border-radius: 4px;
+
+  &:hover {
+    transform: scale(1.02);
+  }
 }
 
 .images__add {
