@@ -16,6 +16,7 @@ import IconCloseToast from './icons/IconCloseToast.vue';
 export default defineComponent({
   components: { IconCloseToast },
   name: 'Toast',
+  emits: ['close'],
   props: {
     msg: { type: String, required: true },
     variant: { type: String, default: 'success' },
@@ -41,6 +42,10 @@ export default defineComponent({
 
   &--success {
     background: var(--c-toast-bg-success);
+  }
+
+  &--error {
+    background: #dc3545;
   }
 }
 

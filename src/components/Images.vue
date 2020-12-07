@@ -39,13 +39,20 @@ export default defineComponent({
   },
   methods: {
     onFileSelected(e: Event) {
-      const target = e.target as HTMLInputElement;
-      if (target.files?.length) {
-        const files = Array.from(target.files);
-        const imageBlobs = files.map((file) => URL.createObjectURL(file));
-        this.imageBlobs = [...this.imageBlobs, ...imageBlobs];
+      const { files } = e.target as HTMLInputElement;
+
+      if (files?.length) {
+        this.createBlobs(files);
+        this.$emit('onSubmit', files);
       }
     },
+
+    createBlobs(files: FileList) {
+      const images = Array.from(files);
+      const imageBlobs = images.map((image) => URL.createObjectURL(image));
+      this.imageBlobs = [...this.imageBlobs, ...imageBlobs];
+    },
+
     onDelete(value: string) {
       this.imageBlobs = this.imageBlobs.filter((blob) => blob !== value);
     }
@@ -84,6 +91,7 @@ export default defineComponent({
   position: relative;
   width: 80px;
   height: 80px;
+  margin-right: 8px;
 }
 
 .images__image {
@@ -92,8 +100,8 @@ export default defineComponent({
 }
 
 .images__delete {
-  position: absolute;
   @include reset-button;
+  position: absolute;
   background: rgba(0, 0, 0, 0.6);
   width: 32px;
   height: 32px;

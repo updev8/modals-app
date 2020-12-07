@@ -22,8 +22,6 @@
         :isSubmit="isSubmit"
       />
     </Modal>
-
-    <Toast msg="Спасибо, отзыв опубликован!" variant="success" />
   </div>
 </template>
 
@@ -32,13 +30,12 @@ import { defineComponent } from 'vue';
 import { debounce } from 'lodash';
 import Modal from '@/components/Modal.vue';
 import Review from '@/components/Review.vue';
-import Toast from '@/components/Toast.vue';
 
 export default defineComponent({
   name: 'Home',
-  components: { Modal, Review, Toast },
+  components: { Modal, Review },
   data: () => ({
-    step: 2,
+    step: 1,
     amountOfSteps: 2,
     isTablet: false,
     isModalVisible: true,
@@ -72,7 +69,7 @@ export default defineComponent({
         this.step += 1;
       } else {
         this.isSubmit = true;
-        setTimeout(() => (this.isSubmit = false), 50);
+        setTimeout(() => (this.isSubmit = false), 500);
       }
     },
     onModalBackClick() {

@@ -24,7 +24,7 @@
           :title="title"
           :length="lenght"
           :value="value"
-          @selectedValue="selectedRatingValue"
+          @selectedValue="selectRatingValue"
         />
       </div>
     </div>
@@ -43,8 +43,14 @@
           {{ textAreaValueLenght }}/{{ textAreaValueMaxLenght }}
         </span>
       </div>
-      <Images />
+      <Images @onSubmit="onAddImages" />
     </div>
+    <Toast
+      :isVisible="wasSubmitted"
+      :msg="wasSubmittedSuccessfuly ? 'Спасибо, отзыв опубликован' : 'Ошибка'"
+      :variant="wasSubmittedSuccessfuly ? 'success' : 'error'"
+      @close="wasSubmitted = false"
+    />
   </div>
 </template>
 
@@ -53,15 +59,16 @@ import { defineComponent } from 'vue';
 import axios from 'axios';
 import Rating from '@/components/Rating.vue';
 import Images from '@/components/Images.vue';
+import Toast from '@/components/Toast.vue';
 
 export default defineComponent({
   name: 'Review',
-  components: { Rating, Images },
+  components: { Rating, Images, Toast },
   props: {
     title: String,
     author: String,
     imgSrc: { type: String, required: true },
-    step: Number,
+    step: { type: Number, default: 1 },
     isTablet: Boolean,
     isSubmit: { type: Boolean, default: false }
   },
@@ -73,13 +80,16 @@ export default defineComponent({
         { id: 3, title: 'Исполнитель солнышка?', lenght: 5, value: 5 },
         { id: 4, title: 'Исполнитель солнышка?', lenght: 5, value: 3 }
       ],
+      images: [] as File[],
       textAreaValue: '',
-      textAreaValueMaxLenght: 500
+      textAreaValueMaxLenght: 500,
+      wasSubmitted: false,
+      wasSubmittedSuccessfuly: false
     };
   },
   watch: {
-    isSubmit() {
-      this.handleSubmit();
+    isSubmit(newIsSubmit) {
+      if (newIsSubmit) this.handleSubmit();
     }
   },
   computed: {
@@ -89,20 +99,45 @@ export default defineComponent({
   },
   methods: {
     async handleSubmit() {
-      const url = 'https://jsonplaceholder.typicode.com/posts';
-      const body = {
-        textAreaValue: this.textAreaValue,
-        ratings: this.ratings
-      };
+      try {
+        const { formData } = this.createFormData();
+        const url = 'https://jsonplaceholder.typicode.com/posts';
+        await axios.post(url, formData, {
+          headers: { 'Content-type': 'application/json; charset=UTF-8' }
+        });
 
-      const { data } = await axios.post(url, {
-        body: JSON.stringify(body)
-      });
-
-      console.log(data);
+        this.setWasSubmittedSuccessfuly(true);
+      } catch (e) {
+        this.setWasSubmittedSuccessfuly(false);
+      }
     },
 
-    selectedRatingValue({ value, id }: { value: number; id: number }) {
+    setWasSubmittedSuccessfuly(wasSuccessful = false) {
+      this.wasSubmitted = true;
+      this.wasSubmittedSuccessfuly = wasSuccessful;
+    },
+
+    createFormData() {
+      const formData = new FormData();
+
+      formData.append('title', this.title as string);
+      formData.append('author', this.author as string);
+      formData.append('textAreaValue', this.textAreaValue);
+      formData.append('ratings', JSON.stringify(this.ratings));
+
+      // the api doesn't support binary formats
+      // this.images.forEach((image) =>
+      //   formData.append('images', image, image.name)
+      // );
+
+      return { formData };
+    },
+
+    onAddImages(images: File[]) {
+      this.images = [...this.images, ...images];
+    },
+
+    selectRatingValue({ value, id }: { value: number; id: number }) {
       this.ratings = this.ratings.map((rating) => {
         if (rating.id === id) return { ...rating, value };
         return rating;
