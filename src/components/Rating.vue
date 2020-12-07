@@ -5,16 +5,13 @@
       <button
         class="rating__star"
         :class="{
-          'rating__star--active':
-            star <= (isHovering ? valueHovering : valueInner)
+          'rating__star--active': star <= (isHovering ? valueHovering : value)
         }"
         v-for="star in stars"
         :key="star"
         @click="onClick()"
         @mouseenter="onMouseEnter(star)"
-        @focus="onMouseEnter(star)"
         @mouseleave="onMouseLeave"
-        @keypress="onClick()"
       >
         <IconStar />
       </button>
@@ -32,12 +29,13 @@ export default defineComponent({
   props: {
     title: String,
     length: { type: Number, default: 3, required: true },
-    value: { type: Number, default: 0, required: true }
+    value: { type: Number, default: 0, required: true },
+    id: Number
   },
+  emits: ['selectedValue'],
 
   data() {
     return {
-      valueInner: this.value,
       valueHovering: 0,
       isHovering: false
     };
@@ -55,7 +53,7 @@ export default defineComponent({
       this.valueHovering = value;
     },
     onClick() {
-      this.valueInner = this.valueHovering;
+      this.$emit('selectedValue', { value: this.valueHovering, id: this.id });
     },
     onMouseLeave() {
       this.isHovering = false;

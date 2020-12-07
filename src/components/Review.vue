@@ -1,34 +1,36 @@
 <template>
   <div class="review">
     <div
-      class="review__wrapper"
-      :class="{ 'review__wrapper--visible': isTablet || step === 1 }"
+      class="review__step"
+      :class="{ 'review__step--visible': isTablet || step === 1 }"
     >
       <div class="review__header">
         <img
           class="review__image"
           width="86"
           height="56"
-          alt=""
-          src="@/assets/wedding.jpg"
+          :alt="title"
+          :src="imgSrc"
         />
-        <h3 class="review__title">Фоточки в свадебном платьице</h3>
-        <p class="review__author">Алена Смирнова</p>
+        <h3 class="review__title">{{ title }}</h3>
+        <p class="review__author">{{ author }}</p>
       </div>
       <div class="review__ratings">
         <Rating
           class="review__rating"
-          v-for="rating in ratings"
-          :key="rating.id"
-          :title="rating.title"
-          :length="rating.lenght"
-          :value="rating.value"
+          v-for="{ id, title, lenght, value } in ratings"
+          :key="id"
+          :id="id"
+          :title="title"
+          :length="lenght"
+          :value="value"
+          @selectedValue="selectedRatingValue"
         />
       </div>
     </div>
     <div
-      class="review__wrapper"
-      :class="{ 'review__wrapper--visible': isTablet || step === 2 }"
+      class="review__step"
+      :class="{ 'review__step--visible': isTablet || step === 2 }"
     >
       <div class="review__field">
         <textarea
@@ -56,6 +58,9 @@ export default defineComponent({
   name: 'Review',
   components: { Rating, Images },
   props: {
+    title: String,
+    author: String,
+    imgSrc: { type: String, required: true },
     step: Number,
     isTablet: Boolean,
     isSubmit: { type: Boolean, default: false }
@@ -85,20 +90,30 @@ export default defineComponent({
   methods: {
     async handleSubmit() {
       const url = 'https://jsonplaceholder.typicode.com/posts';
-      const body = { textAreaValue: this.textAreaValue };
+      const body = {
+        textAreaValue: this.textAreaValue,
+        ratings: this.ratings
+      };
 
       const { data } = await axios.post(url, {
         body: JSON.stringify(body)
       });
 
       console.log(data);
+    },
+
+    selectedRatingValue({ value, id }: { value: number; id: number }) {
+      this.ratings = this.ratings.map((rating) => {
+        if (rating.id === id) return { ...rating, value };
+        return rating;
+      });
     }
   }
 });
 </script>
 
 <style lang="scss">
-.review__wrapper {
+.review__step {
   display: none;
 
   &--visible {

@@ -13,7 +13,14 @@
       @back="onModalBackClick"
       @next="onModalNextClick"
     >
-      <Review :isTablet="isTablet" :step="step" :isSubmit="isSubmit" />
+      <Review
+        title="Фоточки в свадебном платьице"
+        author="Алена Смирнова"
+        imgSrc="/images/wedding.jpg"
+        :isTablet="isTablet"
+        :step="step"
+        :isSubmit="isSubmit"
+      />
     </Modal>
 
     <Toast msg="Спасибо, отзыв опубликован!" variant="success" />
