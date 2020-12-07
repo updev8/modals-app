@@ -109,7 +109,7 @@ export default defineComponent({
       setTimeout(() => (this.wasSubmittedSuccessfuly = false), 500);
     },
 
-    'toast.isVisible': function (newIsVisible) {
+    'toast.isVisible': function(newIsVisible) {
       if (newIsVisible) {
         setTimeout(() => (this.toast.isVisible = false), 4000);
       }
