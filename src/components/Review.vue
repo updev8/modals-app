@@ -47,10 +47,17 @@
       </div>
       <Images
         class="review__images"
-        @onSubmit="onAddImages"
+        @onAddImages="onAddImages"
+        @onDeleteImage="onDeleteImage"
         :isClean="wasSubmittedSuccessfuly"
       />
     </div>
+    <Toast
+      :isVisible="toast.isVisible"
+      :msg="toast.msg"
+      :variant="toast.variant"
+      @close="toast.isVisible = false"
+    />
   </div>
 </template>
 
@@ -59,14 +66,15 @@ import { defineComponent } from 'vue';
 import axios from 'axios';
 import Rating from '@/components/Rating.vue';
 import Images from '@/components/Images.vue';
+import Toast from './Toast.vue';
 
 export default defineComponent({
   name: 'Review',
-  components: { Rating, Images },
-  emits: ['submitted'],
+  components: { Rating, Images, Toast },
+  emits: ['submitted', 'goToStep'],
   props: {
-    title: String,
-    author: String,
+    title: { type: String, required: true },
+    author: { type: String, required: true },
     imgSrc: { type: String, required: true },
     step: { type: Number, default: 1 },
     isTablet: Boolean,
@@ -84,6 +92,11 @@ export default defineComponent({
       textAreaValue: '',
       textAreaValueMaxLenght: 500,
 
+      toast: {
+        isVisible: false,
+        msg: '',
+        variant: 'error'
+      },
       wasSubmittedSuccessfuly: false
     };
   },
@@ -94,6 +107,12 @@ export default defineComponent({
 
     wasSubmittedSuccessfuly() {
       setTimeout(() => (this.wasSubmittedSuccessfuly = false), 500);
+    },
+
+    'toast.isVisible': function (newIsVisible) {
+      if (newIsVisible) {
+        setTimeout(() => (this.toast.isVisible = false), 4000);
+      }
     }
   },
 
@@ -108,6 +127,10 @@ export default defineComponent({
       this.images = [...this.images, ...images];
     },
 
+    onDeleteImage(index: number) {
+      this.images = this.images.filter((image, idx) => index !== idx);
+    },
+
     selectRatingValue({ value, id }: { value: number; id: number }) {
       this.ratings = this.ratings.map((rating) => {
         if (rating.id === id) return { ...rating, value };
@@ -118,8 +141,8 @@ export default defineComponent({
     createFormData() {
       const formData = new FormData();
 
-      formData.append('title', this.title as string);
-      formData.append('author', this.author as string);
+      formData.append('title', this.title);
+      formData.append('author', this.author);
       formData.append('textAreaValue', this.textAreaValue);
       formData.append('ratings', JSON.stringify(this.ratings));
 
@@ -142,7 +165,7 @@ export default defineComponent({
       }
     },
 
-    async handleSubmit() {
+    async uploadToApi() {
       try {
         const { formData } = this.createFormData();
         const url = 'https://jsonplaceholder.typicode.com/posts';
@@ -151,6 +174,25 @@ export default defineComponent({
         this.handleSubmitted(true);
       } catch (e) {
         this.handleSubmitted(false);
+      }
+    },
+
+    handleSubmit() {
+      const areRatingsFilled = this.ratings.every((rating) => rating.value > 0);
+      const areAllFilled =
+        this.images.length && this.textAreaValue && areRatingsFilled;
+      this.toast.isVisible = true;
+
+      if (areAllFilled) {
+        this.uploadToApi();
+        this.toast.isVisible = false;
+      } else if (!areRatingsFilled) {
+        this.toast.msg = 'Должны быть проставленые все оценки';
+        this.$emit('goToStep', 1);
+      } else if (!this.textAreaValue) {
+        this.toast.msg = 'Комментарий не должен быть пустым';
+      } else if (!this.images.length) {
+        this.toast.msg = 'Минимум 1 изображение должно быть добавлено';
       }
     }
   }

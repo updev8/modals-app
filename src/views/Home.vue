@@ -21,6 +21,7 @@
         :step="step"
         :isSubmit="isSubmit"
         @submitted="onReviewSubmitted"
+        @goToStep="onReviewGoToStep"
       />
     </Modal>
 
@@ -56,7 +57,6 @@ export default defineComponent({
   watch: {
     isToastVisible() {
       setTimeout(() => {
-        // toggle off the toast
         this.isToastVisible = false;
       }, 5000);
     }
@@ -95,6 +95,9 @@ export default defineComponent({
       if (this.step !== 1) {
         this.step -= 1;
       }
+    },
+    onReviewGoToStep(step: number) {
+      this.step = step;
     },
     onReviewSubmitted(wasSuccessful = false) {
       if (wasSuccessful) {

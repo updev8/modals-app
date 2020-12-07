@@ -13,11 +13,11 @@
     </button>
     <div
       class="images__wrapper"
-      v-for="imageBlob in imageBlobs"
+      v-for="(imageBlob, index) in imageBlobs"
       :key="imageBlob"
     >
       <img class="images__image" :src="imageBlob" />
-      <button class="images__delete" @click="onDelete(imageBlob)">
+      <button class="images__delete" @click="onDelete(imageBlob, index)">
         <IconBin />
       </button>
     </div>
@@ -35,8 +35,10 @@ export default defineComponent({
   props: {
     isClean: { type: Boolean, default: false }
   },
+  emits: ['onAddImages', 'onDeleteImage'],
   data() {
     return {
+      imageFiles: null as FileList | null,
       imageBlobs: [] as string[]
     };
   },
@@ -53,7 +55,7 @@ export default defineComponent({
 
       if (files?.length) {
         this.createBlobs(files);
-        this.$emit('onSubmit', files);
+        this.$emit('onAddImages', files);
       }
     },
 
@@ -63,8 +65,9 @@ export default defineComponent({
       this.imageBlobs = [...this.imageBlobs, ...imageBlobs];
     },
 
-    onDelete(value: string) {
-      this.imageBlobs = this.imageBlobs.filter((blob) => blob !== value);
+    onDelete(imageBlob: string, index: number) {
+      this.imageBlobs = this.imageBlobs.filter((blob) => blob !== imageBlob);
+      this.$emit('onDeleteImage', index);
     }
   }
 });
