@@ -32,10 +32,20 @@ import IconPlus from './icons/IconPlus.vue';
 export default defineComponent({
   name: 'Images',
   components: { IconPlus, IconBin },
+  props: {
+    isClean: { type: Boolean, default: false }
+  },
   data() {
     return {
       imageBlobs: [] as string[]
     };
+  },
+  watch: {
+    isClean(newIsClean) {
+      if (newIsClean) {
+        this.imageBlobs = [];
+      }
+    }
   },
   methods: {
     onFileSelected(e: Event) {

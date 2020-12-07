@@ -45,7 +45,11 @@
           {{ textAreaValueLenght }}/{{ textAreaValueMaxLenght }}
         </span>
       </div>
-      <Images class="review__images" @onSubmit="onAddImages" />
+      <Images
+        class="review__images"
+        @onSubmit="onAddImages"
+        :isClean="wasSubmittedSuccessfuly"
+      />
     </div>
     <Toast
       :isVisible="wasSubmitted"
@@ -78,9 +82,9 @@ export default defineComponent({
     return {
       ratings: [
         { id: 1, title: 'Скорость', lenght: 5, value: 0 },
-        { id: 2, title: 'Скорость отдачи видео', lenght: 5, value: 3 },
-        { id: 3, title: 'Качество', lenght: 5, value: 5 },
-        { id: 4, title: 'Исполнитель солнышка?', lenght: 5, value: 3 }
+        { id: 2, title: 'Скорость отдачи видео', lenght: 5, value: 0 },
+        { id: 3, title: 'Качество', lenght: 5, value: 0 },
+        { id: 4, title: 'Исполнитель солнышка?', lenght: 5, value: 0 }
       ],
       images: [] as File[],
       textAreaValue: '',
@@ -98,6 +102,8 @@ export default defineComponent({
       setTimeout(() => {
         // toggle off the toast
         this.wasSubmitted = false;
+        // clean the images component
+        this.wasSubmittedSuccessfuly = false;
       }, 5000);
     }
   },
@@ -139,15 +145,19 @@ export default defineComponent({
     setWasSubmittedSuccessfuly(wasSuccessful = false) {
       this.wasSubmitted = true;
       this.wasSubmittedSuccessfuly = wasSuccessful;
+
+      if (wasSuccessful) {
+        this.textAreaValue = '';
+        this.images = [];
+        this.ratings = this.ratings.map((rating) => ({ ...rating, value: 0 }));
+      }
     },
 
     async handleSubmit() {
       try {
         const { formData } = this.createFormData();
         const url = 'https://jsonplaceholder.typicode.com/posts';
-        await axios.post(url, formData, {
-          headers: { 'Content-type': 'application/json; charset=UTF-8' }
-        });
+        await axios.post(url, formData);
 
         this.setWasSubmittedSuccessfuly(true);
       } catch (e) {
