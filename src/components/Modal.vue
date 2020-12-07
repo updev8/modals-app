@@ -36,6 +36,7 @@ import IconClose from './icons/IconClose.vue';
 export default defineComponent({
   name: 'Modal',
   components: { IconClose, IconBack },
+  emits: ['back', 'close', 'next'],
   props: {
     isVisible: Boolean,
     isTypePage: Boolean,
