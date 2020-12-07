@@ -48,6 +48,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import axios from 'axios';
 import Rating from '@/components/Rating.vue';
 import Images from '@/components/Images.vue';
 
@@ -56,7 +57,8 @@ export default defineComponent({
   components: { Rating, Images },
   props: {
     step: Number,
-    isTablet: Boolean
+    isTablet: Boolean,
+    isSubmit: { type: Boolean, default: false }
   },
   data() {
     return {
@@ -70,9 +72,26 @@ export default defineComponent({
       textAreaValueMaxLenght: 500
     };
   },
+  watch: {
+    isSubmit() {
+      this.handleSubmit();
+    }
+  },
   computed: {
     textAreaValueLenght(): number {
       return this.textAreaValue.length;
+    }
+  },
+  methods: {
+    async handleSubmit() {
+      const url = 'https://jsonplaceholder.typicode.com/posts';
+      const body = { textAreaValue: this.textAreaValue };
+
+      const { data } = await axios.post(url, {
+        body: JSON.stringify(body)
+      });
+
+      console.log(data);
     }
   }
 });

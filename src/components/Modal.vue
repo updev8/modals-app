@@ -2,7 +2,7 @@
   <teleport to="#modal-container">
     <div
       class="modal"
-      :class="{ 'modal--type-page': isPageType }"
+      :class="{ 'modal--type-page': isTypePage }"
       v-if="isVisible"
     >
       <div class="modal__window">
@@ -38,7 +38,7 @@ export default defineComponent({
   components: { IconClose, IconBack },
   props: {
     isVisible: Boolean,
-    isPageType: Boolean,
+    isTypePage: Boolean,
     title: String,
     buttonText: String
   }

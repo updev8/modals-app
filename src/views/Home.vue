@@ -7,13 +7,13 @@
     <Modal
       title="Новый отзыв"
       :isVisible="isModalVisible"
-      :isPageType="isModalPageType"
+      :isTypePage="isModalTypePage"
       :buttonText="modalButtonText"
       @close="isModalVisible = false"
-      @back="step !== 1 && (step -= 1)"
-      @next="step < amountOfSteps && (step += 1)"
+      @back="onModalBackClick"
+      @next="onModalNextClick"
     >
-      <Review :isTablet="isTablet" :step="step" />
+      <Review :isTablet="isTablet" :step="step" :isSubmit="isSubmit" />
     </Modal>
 
     <Toast msg="Спасибо, отзыв опубликован!" variant="success" />
@@ -34,7 +34,8 @@ export default defineComponent({
     step: 2,
     amountOfSteps: 2,
     isTablet: false,
-    isModalVisible: true
+    isModalVisible: true,
+    isSubmit: false
   }),
 
   computed: {
@@ -45,29 +46,42 @@ export default defineComponent({
         return 'Отправить';
       }
     },
-    isModalPageType(): boolean {
+    isModalTypePage(): boolean {
       if (!this.isTablet && this.step > 1) return true;
       return false;
     }
   },
 
   methods: {
-    onResize() {
+    onWindowResize() {
       if (window.innerWidth >= 650) {
         this.isTablet = true;
       } else {
         this.isTablet = false;
       }
+    },
+    onModalNextClick() {
+      if (!this.isTablet && this.step < this.amountOfSteps) {
+        this.step += 1;
+      } else {
+        this.isSubmit = true;
+        setTimeout(() => (this.isSubmit = false), 50);
+      }
+    },
+    onModalBackClick() {
+      if (this.step !== 1) {
+        this.step -= 1;
+      }
     }
   },
 
   mounted() {
-    this.onResize();
-    window.addEventListener('resize', debounce(this.onResize, 100));
+    this.onWindowResize();
+    window.addEventListener('resize', debounce(this.onWindowResize, 100));
   },
 
   beforeUnmount() {
-    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('resize', this.onWindowResize);
   }
 });
 </script>
