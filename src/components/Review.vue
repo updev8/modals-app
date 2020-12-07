@@ -1,6 +1,9 @@
 <template>
   <div class="review">
-    <div class="review__wrapper" v-if="isTablet || step === 1">
+    <div
+      class="review__wrapper"
+      :class="{ 'review__wrapper--visible': isTablet || step === 1 }"
+    >
       <div class="review__header">
         <img
           class="review__image"
@@ -23,7 +26,10 @@
         />
       </div>
     </div>
-    <div class="review__wrapper" v-if="isTablet || step === 2">
+    <div
+      class="review__wrapper"
+      :class="{ 'review__wrapper--visible': isTablet || step === 2 }"
+    >
       <div class="review__field">
         <textarea
           class="review__textarea"
@@ -73,6 +79,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+.review__wrapper {
+  display: none;
+
+  &--visible {
+    display: block;
+  }
+}
+
 .review__image {
   border-radius: 6px;
 }

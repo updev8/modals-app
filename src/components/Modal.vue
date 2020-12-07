@@ -24,7 +24,6 @@
           </button>
         </div>
       </div>
-      <Toast />
     </div>
   </teleport>
 </template>
@@ -33,11 +32,10 @@
 import { defineComponent } from 'vue';
 import IconBack from './icons/IconBack.vue';
 import IconClose from './icons/IconClose.vue';
-import Toast from './Toast.vue';
 
 export default defineComponent({
   name: 'Modal',
-  components: { IconClose, IconBack, Toast },
+  components: { IconClose, IconBack },
   props: {
     isVisible: Boolean,
     isPageType: Boolean,
@@ -54,7 +52,6 @@ export default defineComponent({
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 100;
   background: var(--c-bg-overlay-primary);
 
   display: flex;

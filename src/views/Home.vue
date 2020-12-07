@@ -15,6 +15,8 @@
     >
       <Review :isTablet="isTablet" :step="step" />
     </Modal>
+
+    <Toast msg="Спасибо, отзыв опубликован!" variant="success" />
   </div>
 </template>
 
@@ -23,10 +25,11 @@ import { defineComponent } from 'vue';
 import { debounce } from 'lodash';
 import Modal from '@/components/Modal.vue';
 import Review from '@/components/Review.vue';
+import Toast from '@/components/Toast.vue';
 
 export default defineComponent({
   name: 'Home',
-  components: { Modal, Review },
+  components: { Modal, Review, Toast },
   data: () => ({
     step: 2,
     amountOfSteps: 2,
